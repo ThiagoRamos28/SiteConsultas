@@ -17,7 +17,7 @@ def consulta_usuario(matricula):
 
 def validar_usuario(username, password):
     """
-    Função para validar o usuário no banco de dados
+    Função para validar o usuário no banco de dados.
     """
     try:
         conexao = conectar_oracle()

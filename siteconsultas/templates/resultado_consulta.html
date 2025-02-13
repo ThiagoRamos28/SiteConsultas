@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                {% include 'navbar.html' %}
+            </div>
+        </div>
+        <h2>Resultado da Consulta</h2>
+        {% if result %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Num. Ped RCA</th>
+                        <th>Num. Ped Winthor</th>
+                        <th>Cód. Cliente</th>
+                        <th>Número Nota</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in result %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[3] }}</td>
+                            <td>{{ row[4] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Nenhum resultado encontrado.</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -28,7 +28,7 @@ def validar_usuario(username, password):
                 usuariobd, senhabd = result
                 print(f"Usuário encontrado: {usuariobd}")
                 # Certifique-se de que a função decrypt está definida corretamente no banco de dados
-                cursor.execute("SELECT decrypt(:senhabd, :usuariobd) FROM dual", {'senhabd': senhabd, 'usuariobd': usuariobd})
+                cursor.execute("SELECT decrypt (:senhabd, :usuariobd) FROM dual", {'senhabd': senhabd, 'usuariobd': usuariobd})
                 senha_decrypt = cursor.fetchone()[0]
                 if password == senha_decrypt:
                     return True, result
@@ -52,21 +52,24 @@ def consulta_pedidos():
     params = {}
     
     if num_ped_rca:
-        query += " AND a.numpedrca = :num_ped_rca and a.data >= TRUNC(SYSDATE) - interval '24' hour"
+        query1 += " AND a.numpedrca = :num_ped_rca and a.data >= TRUNC(SYSDATE) - interval '24' hour"
+        query2 += " AND a.numpedrca = :num_ped_rca and a.data >= TRUNC(SYSDATE) - interval '24' hour"
         params['num_ped_rca'] = num_ped_rca
     if num_ped_winthor:
-        query += " AND a.numped = :num_ped_winthor and a.data >= TRUNC(SYSDATE) - interval '24' hour"
+        query1 += " AND a.numped = :num_ped_winthor and a.data >= TRUNC(SYSDATE) - interval '24' hour"
+        query2 += " AND a.numped = :num_ped_winthor and a.data >= TRUNC(SYSDATE) - interval '24' hour"
         params['num_ped_winthor'] = num_ped_winthor
     if cod_cliente:
-        query += " AND a.codcli = :cod_cliente and a.data >= TRUNC(SYSDATE) - interval '24' hour"
+        query1 += " AND a.codcli = :cod_cliente and a.data >= TRUNC(SYSDATE) - interval '24' hour"
+        query2 += " AND a.codcli = :cod_cliente and a.data >= TRUNC(SYSDATE) - interval '24' hour"
         params['cod_cliente'] = cod_cliente
         
-    query = query1 + " UNION ALL " + query2
+    consulta = f"({query1}) UNION ALL ({query2})"
     
     try:
         conexao = conectar_oracle()
         with conexao.cursor() as cursor:
-            cursor.execute(query,params)
+            cursor.execute(consulta,params)
             result = cursor.fetchall()
             return render_template('resultado_consulta.html', result=result)
     except Exception as e:

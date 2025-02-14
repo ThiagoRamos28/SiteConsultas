@@ -30,7 +30,7 @@ def validar_usuario(username, password):
                 # Certifique-se de que a função decrypt está definida corretamente no banco de dados
                 cursor.execute("SELECT decrypt (:senhabd, :usuariobd) FROM dual", {'senhabd': senhabd, 'usuariobd': usuariobd})
                 senha_decrypt = cursor.fetchone()[0]
-                if password == senha_decrypt:
+                if password.upper() == senha_decrypt:
                     return True, result
                 else:
                     print("Senha incorreta!")

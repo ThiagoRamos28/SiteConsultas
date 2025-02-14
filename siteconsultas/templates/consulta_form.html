@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">
                 {% include 'navbar.html' %}
             </div>
-        </div>
-        <h2>Consulta de Pedidos</h2>
+        </div><br>
+        <h2><b>Consulta de Pedidos</b></h2>
         <form method="post" action="{{ url_for('consulta_pedidos') }}">
             <div class="form-group">
                 <label for="num_ped_rca">Num. Ped RCA</label>

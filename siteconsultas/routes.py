@@ -51,13 +51,13 @@ def consulta_pedidos():
     params = {}
     
     if num_ped_rca:
-        query += " AND numpedrca = :num_ped_rca"
+        query += " AND a.numpedrca = :num_ped_rca and a.data >= TRUNC(SYSDATE) - interval '24' hour"
         params['num_ped_rca'] = num_ped_rca
     if num_ped_winthor:
-        query += " AND numped = :num_ped_winthor"
+        query += " AND a.numped = :num_ped_winthor and a.data >= TRUNC(SYSDATE) - interval '24' hour"
         params['num_ped_winthor'] = num_ped_winthor
     if cod_cliente:
-        query += " AND codcli = :cod_cliente"
+        query += " AND a.codcli = :cod_cliente and a.data >= TRUNC(SYSDATE) - interval '24' hour"
         params['cod_cliente'] = cod_cliente
     
     try:

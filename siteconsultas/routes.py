@@ -40,6 +40,9 @@ def validar_usuario(username, password):
     except Exception as e:
         print(f"Erro ao validar usuário: {e}")
         return False, None
+    finally:
+        if conexao:
+            conexao.close()
     
 @app.route('/consulta_pedidos', methods=['POST'])
 def consulta_pedidos():
@@ -74,6 +77,9 @@ def consulta_pedidos():
             return render_template('resultado_consulta.html', result=result)
     except Exception as e:
         return str(e)
+    finally:
+        if conexao:
+            conexao.close()
     
 @app.route('/consulta_form')
 def consulta_form():

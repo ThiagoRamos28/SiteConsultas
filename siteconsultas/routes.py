@@ -22,7 +22,7 @@ def validar_usuario(username, password):
     try:
         conexao = conectar_oracle()
         with conexao.cursor() as cursor:
-            cursor.execute("SELECT usuariobd, senhabd FROM pcempr WHERE BINARY usuariobd = :username", {'username': username})
+            cursor.execute("SELECT usuariobd, senhabd FROM pcempr WHERE usuariobd = upper(:username)", {'username': username}) ## Alterado para upper
             result = cursor.fetchone()
             if result:
                 usuariobd, senhabd = result
@@ -47,7 +47,8 @@ def consulta_pedidos():
     num_ped_winthor = request.form['num_ped_winthor']
     cod_cliente = request.form['cod_cliente']
     
-    query = "SELECT data, numpedrca, numped, codcli, numnota, vltotal FROM pcpedc WHERE 1=1"
+    query1 = "SELECT a.data,a.numpedrca,a.numped,a.codcli,c.cliente,a.codusur,d.nome,a.numcar,a.numnota,a.numtransvenda,a.vltotal,b.situacaonfe,'PCNFSAID' AS TABELA_ORIGEM FROM pcpedc a JOIN pcnfsaid b ON a.numped = b.numped JOIN pcclient c ON a.codcli = c.codcli JOIN pcusuari d ON a.codusur = d.codusur WHERE 1=1"
+    query2 = "SELECT a.data,a.numpedrca,a.numped,a.codcli,c.cliente,a.codusur,d.nome,a.numcar,a.numnota,a.numtransvenda,a.vltotal,b.situacaonfe,'PCNFSAIDPREFAT' AS TABELA_ORIGEM FROM pcpedc a JOIN pcnfsaidprefat b ON a.numped = b.numped JOIN pcclient c ON a.codcli = c.codcli JOIN pcusuari d ON a.codusur = d.codusur WHERE 1=1"
     params = {}
     
     if num_ped_rca:
@@ -59,6 +60,8 @@ def consulta_pedidos():
     if cod_cliente:
         query += " AND a.codcli = :cod_cliente and a.data >= TRUNC(SYSDATE) - interval '24' hour"
         params['cod_cliente'] = cod_cliente
+        
+    query = query1 + " UNION ALL " + query2
     
     try:
         conexao = conectar_oracle()

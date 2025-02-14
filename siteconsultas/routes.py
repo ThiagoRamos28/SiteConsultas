@@ -22,7 +22,7 @@ def validar_usuario(username, password):
     try:
         conexao = conectar_oracle()
         with conexao.cursor() as cursor:
-            cursor.execute("SELECT usuariobd, senhabd FROM pcempr WHERE usuariobd = :username", {'username': username})
+            cursor.execute("SELECT usuariobd, senhabd FROM pcempr WHERE BINARY usuariobd = :username", {'username': username})
             result = cursor.fetchone()
             if result:
                 usuariobd, senhabd = result
@@ -30,7 +30,6 @@ def validar_usuario(username, password):
                 # Certifique-se de que a função decrypt está definida corretamente no banco de dados
                 cursor.execute("SELECT decrypt(:senhabd, :usuariobd) FROM dual", {'senhabd': senhabd, 'usuariobd': usuariobd})
                 senha_decrypt = cursor.fetchone()[0]
-                print(f"Senha descriptografada: {senha_decrypt}")
                 if password == senha_decrypt:
                     return True, result
                 else:
@@ -100,8 +99,8 @@ def login():
             session['logged_in'] = True
             return redirect(url_for('home'))
         else:
-            error = f'Credenciais inválidas. Tente novamente. Usuário: {username}, Senha: {password}'
-    return render_template('login.html', error=error, username=username, password=password, result=result)
+            error = f'Credenciais inválidas. Tente novamente.'
+    return render_template('login.html', error=error, result=result)
 
 @app.route('/logout')
 def logout():

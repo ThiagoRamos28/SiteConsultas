@@ -9,7 +9,7 @@ form {
     margin-bottom: 20px;
 }
 label {
-    display: block;
+    display: flex;
     margin-bottom: 5px;
 }
 input {

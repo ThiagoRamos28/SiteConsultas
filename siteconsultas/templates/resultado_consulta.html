@@ -6,49 +6,60 @@
             <div class="col-md-12">
                 {% include 'navbar.html' %}
             </div>
-        </div>
-        <h2>Resultado da Consulta</h2>
+        </div><br>
+        <h2 class="text-center">Resultado da Consulta</h2>
         {% if result %}
-            <table class="table">
-                <thead>
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
                     <tr>
-                        <th>Data</th>
-                        <th>Num. Ped RCA</th>
-                        <th>Num. Ped Winthor</th>
-                        <th>Cód. Cliente</th>
-                        <th>Nome Cliente</th>
-                        <th>Cód RCA</th>
-                        <th>Nome RCA</th>
-                        <th>Carregamento</th>
+                        <th>Situação NFE</th>
                         <th>Número Nota</th>
                         <th>Trans. Venda</th>
                         <th>Valor</th>
-                        <th>Situação NFE</th>
-                        <th>Tabela Origem</th>
+                        <th>Cód. Cliente</th>
+                        <th>Nome Cliente</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for row in result %}
                         <tr>
-                            <td>{{ row[0] }}</td>
-                            <td>{{ row[1] }}</td>
-                            <td>{{ row[2] }}</td>
-                            <td>{{ row[3] }}</td>
-                            <td>{{ row[4] }}</td>
-                            <td>{{ row[5] }}</td>
-                            <td>{{ row[6] }}</td>
-                            <td>{{ row[7] }}</td>
+                            <td>{{ row[11] }}</td>
                             <td>{{ row[8] }}</td>
                             <td>{{ row[9] }}</td>
-                            <td>{{ row[10] }}</td>
-                            <td>{{ row[11] }}</td>
-                            <td>{{ row[12] }}</td>
+                            <td>R$ {{ "%.2f"|format(row[10]) }}</td><!--formatação em real-->
+                            <td>{{ row[3] }}</td>
+                            <td>{{ row[4] }}</td>
+                            <td>
+                                <button class="btn btn-outline-info" type="button" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}"><!--precisei muito do gpt nisso aqui, mas o collapse está funcionando-->
+                                    Detalhes
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="collapse" id="collapse{{ loop.index }}">
+                            <td colspan="7">
+                                <div class="card card-body">
+                                    <p><strong>Data:</strong> {{ row[0].strftime('%d/%m/%Y') if row[0] else '' }}</p><!--formação da data-->
+                                    <p><strong>Num. Ped RCA:</strong> {{ row[1] }}</p>
+                                    <p><strong>Num. Ped Winthor:</strong> {{ row[2] }}</p>
+                                    <p><strong>Cód RCA:</strong> {{ row[5] }}</p>
+                                    <p><strong>Nome RCA:</strong> {{ row[6] }}</p>
+                                    <p><strong>Carregamento:</strong> {{ row[7] }}</p>
+                                    <p><strong>Tabela Origem:</strong> {{ row[12] }}</p>
+                                </div>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         {% else %}
-            <p>Nenhum resultado encontrado.</p>
+            <p class="text-center">Nenhum resultado encontrado.</p>
         {% endif %}
+        <div class="row mt-3">
+            <div class="col-md-6 text-left">
+                <a href="{{ url_for('consulta_form') }}" class="btn btn-outline-danger">Voltar</a><!--adicionado o botão de voltar-->
+            </div>
+        </div>
     </div>
+    
 {% endblock %}

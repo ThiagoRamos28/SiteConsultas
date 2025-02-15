@@ -16,15 +16,17 @@
                 <a class="nav-link" href="/">Inicio <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Sistema
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><!--mudei de sistemas para tags-->
+                    Tags
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Winthor</a>
-                  <a class="dropdown-item" href="#">Kairos</a>
-                  <a class="dropdown-item" href="#">PowerBI</a>
+                    <a class="dropdown-item" href="#" onclick="filterCards('winthor')">Winthor</a>
+                    <a class="dropdown-item" href="#" onclick="filterCards('kairos')">Kairos</a>
+                    <a class="dropdown-item" href="#" onclick="filterCards('ion')">ION</a>
+                    <a class="dropdown-item" href="#" onclick="filterCards('powerbi')">PowerBI</a>
+                    <a class="dropdown-item" href="#" onclick="filterCards('')">Mostrar Todos</a>
                 </div>
-              </li>
+            </li>
               
         </ul>
         <!---Links de suporte e sair (precisa incluir a função para sair)--->

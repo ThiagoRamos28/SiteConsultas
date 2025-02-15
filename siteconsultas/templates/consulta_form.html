@@ -1,28 +1,46 @@
 {% extends 'base.html' %}
-
+<!--fortmatado para alinhas os itens-->
 {% block content %}
-
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-12">
                 {% include 'navbar.html' %}
             </div>
         </div><br>
-        <h2><b>Consulta de Pedidos</b></h2>
+        <div class="row">
+            <div class="col-md-12 text-center"><!--text center pra deixar o titulo no meio-->
+                <h2><b>Consulta de Pedidos</b></h2>
+            </div>
+        </div>
         <form method="post" action="{{ url_for('consulta_pedidos') }}">
-            <div class="form-group">
-                <label for="num_ped_rca">Num. Ped RCA</label>
-                <input type="text" class="form-control" id="num_ped_rca" name="num_ped_rca">
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="num_ped_rca">Num. Ped RCA</label>
+                        <input type="text" class="form-control" id="num_ped_rca" name="num_ped_rca">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="num_ped_winthor">Num. Ped Winthor</label>
+                        <input type="text" class="form-control" id="num_ped_winthor" name="num_ped_winthor">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="cod_cliente">Cód. Cliente</label>
+                        <input type="text" class="form-control" id="cod_cliente" name="cod_cliente">
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="num_ped_winthor">Num. Ped Winthor</label>
-                <input type="text" class="form-control" id="num_ped_winthor" name="num_ped_winthor">
+            <div class="row mt-3">
+                <div class="col-md-6 text-left">
+                    <a href="{{ url_for('home') }}" class="btn btn-outline-danger">Voltar</a><!--adicionado o botão de voltar-->
+                </div>
+                <div class="col-md-6 text-right">
+                    <button type="submit" class="btn btn-outline-primary">Consultar</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="cod_cliente">Cód. Cliente</label>
-                <input type="text" class="form-control" id="cod_cliente" name="cod_cliente">
-            </div>
-            <button type="submit" class="btn btn-primary">Consultar</button>
         </form>
     </div>
 {% endblock %}

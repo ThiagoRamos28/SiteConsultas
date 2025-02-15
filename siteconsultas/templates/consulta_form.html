@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-<!--fortmatado para alinhas os itens-->
+<!--formatado para alinhar os itens-->
 {% block content %}
     <div class="container mt-5">
         <div class="row">
@@ -12,7 +12,7 @@
                 <h2><b>Consulta de Pedidos</b></h2>
             </div>
         </div>
-        <form method="post" action="{{ url_for('consulta_pedidos') }}">
+        <form method="post" action="{{ url_for('consulta_pedidos') }}" onsubmit="showLoading()">
             <div class="row mt-4">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -42,5 +42,11 @@
                 </div>
             </div>
         </form>
+        <div id="loading" class="text-center mt-4" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden"></span>
+            </div>
+            <p>Consultando...</p>
+        </div>
     </div>
 {% endblock %}

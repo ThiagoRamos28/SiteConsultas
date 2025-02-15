@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+<!--formatado para alinhar os itens-->
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                {% include 'navbar.html' %}
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-md-12 text-center"><!--text center para deixar o título no meio-->
+                <h2><b>Verificar Integração</b></h2>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12 d-flex justify-content-end align-items-center">
+                <h4 class="mb-0">Status:</h4>
+                <div class="ms-4">
+                    {% if status_integracao == 'Integração em andamento' %}
+                        <span class="badge bg-success text-white">{{ status_integracao }}</span>
+                    {% elif status_integracao == 'Integração paralisada' %}
+                        <span class="badge bg-warning text-dark">{{ status_integracao }}</span>
+                    {% else %}
+                        <span class="badge bg-danger text-white">Rotina Fechada</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12 d-flex justify-content-end align-items-center">
+                <h5 class="mb-0">Última Data de Importação:</h5>
+                <div class="ms-4">
+                    <span>{{ ultima_data_importacao.strftime('%d/%m/%Y %H:%M:%S') }}</span>
+                </div>
+            </div>
+        </div>
+        <form method="POST" action="{{ url_for('verificar_integracao') }}" onsubmit="showLoading()">
+            <div class="row mt-4">
+                <div class="col-md-8 d-flex align-items-end">
+                    <div class="me-3 flex-grow-1">
+                        <label for="filial" class="form-label">Selecionar Filial:</label>
+                        <div class="input-group">
+                            <select id="filial" name="filial" class="form-select">
+                                {% for filial in filiais %}
+                                    <option value="{{ filial[0] }}" {% if filial[0] == filial_selecionada %}selected{% endif %}>{{ filial[1] }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-outline-primary">Consultar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div id="loading" class="text-center mt-4" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden"></span>
+            </div>
+            <p>Verificando...</p>
+        </div>
+        {% if resultados %}
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <table class="table table-striped table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Data Geração</th>
+                            <th>Carga</th>
+                            <th>Quant. OS Winthor</th>
+                            <th>Quant. OS Kairos</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resultado in resultados %}
+                            <tr>
+                                <td>{{ resultado[0].strftime('%d/%m/%Y') }}</td>
+                                <td>{{ resultado[1] }}</td>
+                                <td>{{ resultado[2] }}</td>
+                                <td>{{ resultado[3] }}</td>
+                                <td>
+                                    {% if resultado[2] == resultado[3] %}
+                                        <span class="text-success">&#10004;</span> <!-- Checkmark -->
+                                    {% else %}
+                                        <span class="text-danger">&#10008;</span> <!-- Crossmark -->
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row mt-4">
+            <div class="col-md-6 text-left">
+                <a href="{{ url_for('home') }}" class="btn btn-outline-danger">Voltar</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

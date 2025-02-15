@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Disdal Tech{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="{{ url_for('static', filename='img/Logo.ico') }}" type="image/x-icon">
 </head>
 <body><!--adicionado a função filter para filtrar as tags dos data-tag de cada card-->
@@ -22,6 +23,11 @@
                     card.classList.add('d-none');
                 }
             });
+        }
+    </script>
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
         }
     </script>
 </body>

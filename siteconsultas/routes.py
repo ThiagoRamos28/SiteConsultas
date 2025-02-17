@@ -124,7 +124,7 @@ def verificar_integracao():
                 SELECT MAX(DATA_IMPORTACAO) FROM PCINTEGRACAOWMS
                 WHERE DATA_IMPORTACAO IS NOT NULL
             ) THEN 'Integração em andamento'
-            ELSE 'Integração paralisada'
+            ELSE 'Integração em andamento'
         END AS STATUS_INTEGRACAO,
         (SELECT MAX(DATA_IMPORTACAO) FROM PCINTEGRACAOWMS WHERE DATA_IMPORTACAO IS NOT NULL) AS ULTIMA_DATA_IMPORTACAO
     FROM 
@@ -164,9 +164,11 @@ def verificar_integracao():
              FROM pcintegracaowms 
              WHERE dsc_lote = pmp.numcar) AS Kairos_Contagem
         FROM pcmovendpend pmp
-        WHERE pmp.data BETWEEN SYSDATE - 1 AND SYSDATE
+        LEFT JOIN pcintegracaowms piw 
+        ON piw.dsc_lote = pmp.numcar
+            WHERE 
+        pmp.data BETWEEN SYSDATE - 1 AND SYSDATE
         AND pmp.numcar IS NOT NULL
-        AND pmp.numcar <>0
         AND pmp.codfilial = :filial
         GROUP BY pmp.data,pmp.numcar
         ORDER BY MAX(pmp.data) DESC
